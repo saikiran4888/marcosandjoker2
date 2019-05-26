@@ -5,4 +5,3 @@ async-timeout==3.0.1
 praw
 status
 asyncio
-pandas
