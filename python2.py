@@ -469,7 +469,7 @@ async def spotify(ctx, user: discord.Member=None):
             if isinstance(activity, Spotify):
                 embed = discord.Embed(title=f" ", description=f"{user.mention} is listening to...", color=activity.color)
                 embed.add_field(name="**Title**", value=activity.title, inline=False)
-                embed.add_field(name="**Artist**", value=activity.artists, inline=False)
+                embed.add_field(name="**Artist**", value=activity.artist, inline=False)
                 embed.add_field(name="**Album**", value=activity.album, inline=False)
                 embed.add_field(name="**Duration**", value=activity.duration, inline=False)
                 embed.add_field(name="**Track ID**", value=activity.track_id, inline=False)
@@ -485,7 +485,7 @@ async def spotify(ctx, user: discord.Member=None):
             if isinstance(activity, Spotify):
                 embed = discord.Embed(title=f" ", description=f"{user.mention} is listening to...", color=activity.color)
                 embed.add_field(name="**Title**", value=activity.title, inline=False)
-                embed.add_field(name="**Artist**", value=activity.artists, inline=False)
+                embed.add_field(name="**Artist**", value=activity.artist, inline=False)
                 embed.add_field(name="**Album**", value=activity.album, inline=False)
                 embed.add_field(name="**Duration**", value=activity.duration, inline=False)
                 embed.add_field(name="**Track ID**", value=activity.track_id, inline=False)
