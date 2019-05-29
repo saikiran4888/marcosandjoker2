@@ -145,11 +145,8 @@ async def poll(ctx, question, *options:str):
 async def on_member_remove(member):
     channel = client.get_channel(565768324252958720)
     channel2 = client.get_channel(557273459244269582)
-    memberchannel = client.get_channel(571026280624029718)
-    botchannel = client.get_channel(571302935586406420)
     userchannel = client.get_channel(571302888110817281)
     person_count = len([member for member in member.guild.members if not member.bot])
-    bot_count = len([member for member in member.guild.members if member.bot])
     embed=discord.Embed(title=f"Good bye {member.name}... Hope you'll come back again to {member.guild.name}", description="Thank you for being with us all these times...", color=0XFF69B4)
     embed.set_thumbnail(url='https://media.giphy.com/media/LTFbyWuELIlqlXGLeZ/giphy.gif')
     embed.add_field(name="__**Members Remaining**__", value='{}'.format(str(member.guild.member_count)), inline=True)
@@ -161,9 +158,7 @@ async def on_member_remove(member):
     embed2.timestamp = datetime.datetime.utcnow()
     await channel.send(embed=embed)
     await channel2.send(embed=embed2)
-    await memberchannel.edit(name= f"Member Count: {format(str(member.guild.member_count))}")
     await userchannel.edit(name= f"User Count: {person_count}")
-    await botchannel.edit(name= f"Bot Count: {bot_count}")
 
 @client.event
 async def on_member_join(member):
@@ -171,11 +166,8 @@ async def on_member_join(member):
     channel = client.get_channel(565766644140474368)
     channel2 = client.get_channel(557273459244269582)
     text_channel = client.get_channel(565767003533737985)
-    memberchannel = client.get_channel(571026280624029718)
-    botchannel = client.get_channel(571302935586406420)
     userchannel = client.get_channel(571302888110817281)
     person_count = len([member for member in member.guild.members if not member.bot])
-    bot_count = len([member for member in member.guild.members if member.bot])
     embed=discord.Embed(title=f"Welcome {member.name} to {member.guild.name}", description=f"**Hope you'll be active here... Read rules at {text_channel.mention} channel and don't break any of them...**", color=0XFF69B4)
     embed.set_thumbnail(url='https://media.giphy.com/media/OF0yOAufcWLfi/giphy.gif')
     embed.add_field(name="__**Thanks for joining our server**__", value="We hope you a good stay here....")
@@ -190,10 +182,8 @@ async def on_member_join(member):
     embed2.timestamp = datetime.datetime.utcnow()
     await channel.send(embed=embed)
     await channel2.send(embed=embed2)
-    await memberchannel.edit(name= f"Member Count: {format(str(member.guild.member_count))}")
     await userchannel.edit(name= f"User Count: {person_count}")
-    await botchannel.edit(name= f"Bot Count: {bot_count}")
-
+    
 @client.event
 async def on_message_edit(before,after):
     if before.content != after.content:
