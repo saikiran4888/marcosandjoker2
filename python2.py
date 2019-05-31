@@ -531,4 +531,5 @@ async def test(ctx):
     await ctx.send(embed=embed)
 
     
-client.run('NTgxMTExODEyNTk5MzE2NTEx.XOjKvg.zqemu_YwAaK8pHPl7O94fUBRogU')
+    
+client.run(os.getenv('TOKEN'))
