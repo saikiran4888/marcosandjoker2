@@ -697,11 +697,4 @@ async def roleinfo(ctx, role: discord.Role=None):
     await ctx.send(embed=embed)
 
 
-
-
-
-
-
-
-
-client.run("NTE4MDc5NTI2MDM1NzgzNjkx.XOqm_w.vQFgXMx8_3Ux58jr4MNhm1LVkEY")
+clien.run(os.getenv('TOKEN'))
