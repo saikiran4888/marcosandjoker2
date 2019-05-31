@@ -529,7 +529,5 @@ async def test(ctx):
     embed.add_field(name="** \n \n Well, If you broke any rules above, You'll get warning or Instant Kick/Ban based on how severe your actions are... And the punishments decided by staff are as follows...**", value=punishments, inline=False)
     embed.add_field(name="**:beginner:   Final Words...**", value="Well, The constitution will be amended frequently, If you have any concerns about rules... You can contact any staff around here...", inline=False)
     await ctx.send(embed=embed)
-
-    
     
 client.run(os.getenv('TOKEN'))
