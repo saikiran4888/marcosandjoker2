@@ -697,4 +697,4 @@ async def roleinfo(ctx, role: discord.Role=None):
     await ctx.send(embed=embed)
 
 
-clien.run(os.getenv('TOKEN'))
+client.run(os.getenv('TOKEN'))
