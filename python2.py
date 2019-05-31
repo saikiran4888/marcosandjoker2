@@ -168,7 +168,7 @@ async def on_member_join(member):
     text_channel = client.get_channel(565767003533737985)
     userchannel = client.get_channel(571302888110817281)
     person_count = len([member for member in member.guild.members if not member.bot])
-    embed=discord.Embed(title=f"Welcome {member.name} to {member.guild.name}", description=f"**Hope you'll be active here... Read rules at {text_channel.mention} channel and don't break any of them...**", color=0XFF69B4)
+    embed = discord.Embed(title=f"Welcome {member.name} to {member.guild.name}", description=f"**Hope you'll be active here... Read rules at {text_channel.mention} channel and don't break any of them...**", color=0XFF69B4)
     embed.set_thumbnail(url='https://media.giphy.com/media/OF0yOAufcWLfi/giphy.gif')
     embed.add_field(name="__**Thanks for joining our server**__", value="We hope you a good stay here....")
     embed.add_field(name="__**Time of joining**__", value=member.joined_at.date(), inline=True)
