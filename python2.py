@@ -7,6 +7,9 @@ import random
 import platform
 from discord import Game, Embed, Color, Status, ChannelType
 from discord import Spotify
+from spotipy.oauth2 import SpotifyClientCredentials
+import spotipy
+import pprint
 import os
 import functools
 import time
@@ -158,16 +161,71 @@ async def on_member_remove(member):
     embed2.timestamp = datetime.datetime.utcnow()
     await channel.send(embed=embed)
     await channel2.send(embed=embed2)
+    await userchannel.edit(name= f"User Count: {person_count}")
 
 @client.event
 async def on_member_join(member):
+    choices = ["DcssawdeS", "Sasdawdd", "AWSdasdwaA", "AdwASwAas", "AsdWDAasas", "ASDwdAsad", "MKiojmkomM"]
+    choices2 = random.choice(choices)
+    role = discord.utils.get(member.guild.roles, id=549265886100586506)
+    embed = discord.Embed(title=" ", description=f"Welcome to {member.guild.name}, In order to send any message in the server, You must verify as per the server's policy. Sorry for bothering you but it's my duty though.... And please follow the instructions below. I'm sure that the instructions will be easy for you... Wait 10 seconds for next message.", color=0XFF69BF)
+    embed.set_author(name=f"Verification for {member.guild.name}", icon_url=member.guild.icon_url)
+    embed.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=member.avatar_url)
+    embed2 = discord.Embed(title=" ", description="You've to type the word shown in the next message correctly. And you'vve got only three chances. If you failed to enter correct word, Then you'll get kicked from server and you've to join again... Wait 10 seconds for next message", color=0XFF69BF)
+    embed2.set_author(name=f"Verification for {member.guild.name}", icon_url=member.guild.icon_url)
+    embed2.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=member.avatar_url)
+    embed3 = discord.Embed(title="This is your first attempt (Two remaining)... Type the word shown below correctly", description=f"**{choices2}**", color=0XFF69BF)
+    embed3.set_author(name=f"Verification for {member.guild.name}", icon_url=member.guild.icon_url)
+    embed3.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=member.avatar_url)
+    await member.send(embed=embed)
+    await asyncio.sleep(10)
+    await member.send(embed=embed2)
+    await asyncio.sleep(10)
+    await member.send(embed=embed3)
+    msg2 = await client.wait_for('message', timeout=60)
+    if msg2.content == choices2:
+        embed4 = discord.Embed(title=f"Yayy!!! You've made it you've got {role.name} role enjoy your stay in {member.guild.name} server... Thanks for supporting us**", description=" ", color=0XFF69BF)
+        embed4.set_author(name=f"Verification for {member.guild.name}", icon_url=member.guild.icon_url)
+        embed4.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=member.avatar_url)
+        await member.send(embed=embed4)
+        await member.add_roles(role)
+    else:
+        choices3 = random.choice(choices)
+        embed5 = discord.Embed(title="You've typed the wrong word... This is your second attempt (One remaining)... Type the word shown below correctly", description=f"{choices3}", color=0XFF69BF)
+        embed5.set_author(name=f"Verification for {member.guild.name}", icon_url=member.guild.icon_url)
+        embed5.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=member.avatar_url)
+        await member.send(embed=embed5)
+        msg3 = await client.wait_for('message', timeout=60)
+        if msg3.content == choices3:
+            embed4 = discord.Embed(title=f"Yayy!!! You've made it you've got {role.name} role enjoy your stay in {member.guild.name} server... Thanks for supporting us", description=" ", color=0XFF69BF)
+            embed4.set_author(name=f"Verification for {member.guild.name}", icon_url=member.guild.icon_url)
+            embed4.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=member.avatar_url)
+            await member.send(embed=embed4)
+            await member.add_roles(role)
+        else:
+            choices4 = random.choice(choices)
+            embed6 = discord.Embed(title="You've typed the wrong word... This is your last attempt... Type the word shown below correctly.. If yout typed wrong you'll get kicked from server...", description=f"{choices4}", color=0XFF69BF)
+            embed6.set_author(name=f"Verification for {member.guild.name}", icon_url=member.guild.icon_url)
+            embed6.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=member.avatar_url)
+            await member.send(embed=embed6)
+            msg4 = await client.wait_for('message', timeout=60)
+            if msg4.content == choices4:
+                embed4 = discord.Embed(title=f"Yayy!!! You've made it you've got {role.name} role enjoy your stay in {member.guild.name} server... Thanks for supporting us", description=" ", color=0XFF69BF)
+                embed4.set_author(name=f"Verification for {member.guild.name}", icon_url=member.guild.icon_url)
+                embed4.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=member.avatar_url)
+                await member.send(embed=embed4)
+                await member.add_roles(role)
+            else:
+                await member.send("**You've entered a wrong word agian.... Your attempts are over... You've been kicked out of this server**")
+                await member.guild.kick(member)
+                return
     gettime = discord.utils.snowflake_time(member.id)
     channel = client.get_channel(565766644140474368)
     channel2 = client.get_channel(557273459244269582)
     text_channel = client.get_channel(565767003533737985)
     userchannel = client.get_channel(571302888110817281)
     person_count = len([member for member in member.guild.members if not member.bot])
-    embed = discord.Embed(title=f"Welcome {member.name} to {member.guild.name}", description=f"**Hope you'll be active here... Read rules at {text_channel.mention} channel and don't break any of them...**", color=0XFF69B4)
+    embed=discord.Embed(title=f"Welcome {member.name} to {member.guild.name}", description=f"**Hope you'll be active here... Read rules at {text_channel.mention} channel and don't break any of them...**", color=0XFF69B4)
     embed.set_thumbnail(url='https://media.giphy.com/media/OF0yOAufcWLfi/giphy.gif')
     embed.add_field(name="__**Thanks for joining our server**__", value="We hope you a good stay here....")
     embed.add_field(name="__**Time of joining**__", value=member.joined_at.date(), inline=True)
@@ -181,7 +239,8 @@ async def on_member_join(member):
     embed2.timestamp = datetime.datetime.utcnow()
     await channel.send(embed=embed)
     await channel2.send(embed=embed2)
-    
+    await userchannel.edit(name= f"User Count: {person_count}")
+
 @client.event
 async def on_message_edit(before,after):
     if before.content != after.content:
@@ -300,7 +359,7 @@ async def movie(ctx, *, name:str=None):
 async def help(ctx):
     embed=discord.Embed(title="__Command Prefix__: %", description='', color=0XFF69B4)
     embed.add_field(name="__**Summary**__", value="**This is the official BOT of REFORMED server. You can't find this BOT anywhere than here. This BOT is made in memory of JOKER \n And this BOT can't be distributed to anyone \n \n \n**", inline=True)
-    embed.add_field(name="__**Commands**__", value="__**Fun Commands**__ \n `quote` - Quote of Joker \n `fams` - Random DragonBall Z GIF \n `marvel` - Random Marvel GIF \n `dc` - Random DC GIF \n `joker` - Random Joker GIF (Tribute to Heath Ledger) \n`meme` - Random funny meme \n `movie <movie name>` - Gives info of the particular movie you have searched \n `spotify` - Gives the details about the song you're listening on spotify \n `spotify <user>` - Gives info about the particular song that the user is listening on spotify \n \n __**Bot and server releated commands**__ \n `botinfo` - Information about this BOT \n `serverinvite` - Server invitation link \n \n __**Misc Commands**__ \n `avatar` - Avatar of the user \n `avatar <user>` - Avatar of mentioned user \n \n __**Admin Commands**__ \n `poll` - Polling (Administrator) \n `announce <channel> <matter>` - To announce the entered matter (Administrator) \n \n **More Feautures coming soon...** \n \n __**BOT will be offline someties... That means we are updating BOT**__ \n **Thank you for using this BOT**")
+    embed.add_field(name="__**Commands**__", value="__**Fun Commands**__ \n `quote` - Quote of Joker \n `fams` - Random DragonBall Z GIF \n `marvel` - Random Marvel GIF \n `dc` - Random DC GIF \n `joker` - Random Joker GIF (Tribute to Heath Ledger) \n`meme` - Random funny meme \n `movie <movie name>` - Gives info of the particular movie you have searched \n \n __**Bot and server releated commands**__ \n `botinfo` - Information about this BOT \n `serverinvite` - Server invitation link \n \n __**Misc Commands**__ \n `avatar` - Avatar of the user \n `avatar <user>` - Avatar of mentioned user \n \n __**Admin Commands**__ \n `poll` - Polling (Administrator) \n `askquestion` - Asking of funny question (Administrator) \n `announce <channel> <matter>` - To announce the entered matter (Administrator) \n \n **More Feautures coming soon...** \n \n __**BOT will be offline someties... That means we are updating BOT**__ \n **Thank you for using this BOT**")
     embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/516953091656908810/519072295080296469/Joker.png')
     embed.set_footer(text=f'Requested by {ctx.message.author.name}', icon_url=f'{ctx.message.author.avatar_url}')
     embed.timestamp = datetime.datetime.utcnow()
@@ -431,7 +490,6 @@ async def rule18(ctx):
 @client.command(pass_context = True)
 @commands.has_permissions(administrator=True)
 async def lock(ctx, Role:discord.Role= None, channel:discord.TextChannel=None):
-    channel2 = client.get_channel(channel.id)
     overwrite = discord.PermissionOverwrite()
     overwrite.send_messages = False
     overwrite.read_messages = False
@@ -448,7 +506,94 @@ async def unlock(ctx, Role:discord.Role=None, Channel:discord.TextChannel=None):
     overwrite.read_message_history = True
     await Channel.set_permissions(Role, overwrite = overwrite)
     await ctx.send(f"**{Channel.mention} has been unlocked for** `{Role.name}`")
+
+@client.command(pass_context = True)
+@commands.has_permissions(administrator=True)
+async def test3(ctx):
+    choices = ["DcssawdeS", "Sasdawdd", "AWSdasdwaA", "AdwASwAas", "AsdWDAasas", "ASDwdAsad", "MKiojmkomM"]
+    choices2 = random.choice(choices)
+    role = discord.utils.get(ctx.guild.roles, id=549265886100586506)
+    embed = discord.Embed(title=" ", description=f"**Welcome to {ctx.guild.name}, In order to send any message in the server, You must verify as per the server's policy. Sorry for bothering you but it's my duty though.... And please follow the instructions below. I'm sure that the instructions will be easy for you... Wait 10 seconds for next message.**", color=0XFF69BF)
+    embed.set_author(name=f"Verification for {ctx.guild.name}**", icon_url=ctx.guild.icon_url)
+    embed.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=ctx.author.avatar_url)
+    embed2 = discord.Embed(title=" ", description="**You've to type the word shown in the next message correctly. And you've got only three chances. If you failed to enter correct word, Then you'll get kicked from server and you've to join again... Wait 10 seconds for next message**", color=0XFF69BF)
+    embed2.set_author(name=f"Verification for {ctx.guild.name}", icon_url=ctx.guild.icon_url)
+    embed2.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=ctx.author.avatar_url)
+    embed3 = discord.Embed(title=f"**This is your first attempt (Two remaining)... Type the word shown below correctly... You've got 60 seconds only \n \n {choices2}**", description=" ", color=0XFF69BF)
+    embed3.set_author(name=f"Verification for {ctx.guild.name}", icon_url=ctx.guild.icon_url)
+    embed3.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=ctx.author.avatar_url)
+    await ctx.send(embed=embed)
+    await asyncio.sleep(10)
+    await ctx.send(embed=embed2)
+    await asyncio.sleep(10)
+    await ctx.send(embed=embed3)
+    msg2 = await client.wait_for('message', timeout=None)
+    if msg2.content == choices2:
+        embed4 = discord.Embed(title=f"**Yayy!!! You've made it you've got {role} role enjoy your stay in {ctx.guild.name} server... Thanks for supporting us**", description=" ", color=0XFF69BF)
+        embed4.set_author(name=f"Verification for {ctx.guild.name}", icon_url=ctx.guild.icon_url)
+        embed4.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=ctx.author.avatar_url)
+        await ctx.send(embed=embed4)
+        await ctx.author.add_roles(role)
+    else:
+        choices3 = random.choice(choices)
+        embed5 = discord.Embed(title=f"**You've typed the wrong word... This is your second attempt (One remaining)... Type the word shown below correctly... You've got 60 seconds only \n \n {choices3} \n \n**", description=" ", color=0XFF69BF)
+        embed5.set_author(name=f"Verification for {ctx.guild.name}", icon_url=ctx.guild.icon_url)
+        embed5.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=ctx.author.avatar_url)
+        await ctx.send(embed=embed5)
+        msg3 = await client.wait_for('message', timeout=None)
+        if msg3.content == choices3:
+            embed4 = discord.Embed(title=f"**Yayy!!! You've made it you've got {role} role enjoy your stay in {ctx.guild.name} server... Thanks for supporting us**", description=" ", color=0XFF69BF)
+            embed4.set_author(name=f"Verification for {ctx.guild.name}", icon_url=ctx.guild.icon_url)
+            embed4.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=ctx.author.avatar_url)
+            await ctx.send(embed=embed4)
+            await ctx.author.add_roles(role)
+        else:
+            choices4 = random.choice(choices)
+            embed6 = discord.Embed(title=f"**You've typed the wrong word... This is your last attempt... Type the word shown below correctly.. If yout typed wrong you'll get kicked from server... \n \n {choices4} \n \n**", description=f" ", color=0XFF69BF)
+            embed6.set_author(name=f"Verification for {ctx.guild.name}", icon_url=ctx.guild.icon_url)
+            embed6.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=ctx.author.avatar_url)
+            await ctx.send(embed=embed6)
+            msg4 = await client.wait_for('message', timeout=None)
+            if msg4.content == choices4:
+                embed4 = discord.Embed(title=f"**Yayy!!! You've made it you've got {role} role enjoy your stay in {ctx.guild.name} server... Thanks for supporting us**", description=" ", color=0XFF69BF)
+                embed4.set_author(name=f"Verification for {ctx.guild.name}", icon_url=ctx.guild.icon_url)
+                embed4.set_footer(text=f"After this process you'll get {role.name} so that we sure you're verified", icon_url=ctx.author.avatar_url)
+                await ctx.send(embed=embed4)
+                await ctx.author.add_roles(role)
+            else:
+                await ctx.send("**You've entered a wrong word agian.... Your attempts are over... You've been kicked out of this server**")
+                return
+
+@client.command(pass_context = True)
+@commands.has_permissions(ban_members = True)
+async def tempmute(ctx, user: discord.Member, num: int, time: str, reason:str):
+    role = discord.utils.get(ctx.guild.roles, id=520653530529398784)
+
+    if time == 'm':
+        duration = num*60
+        await user.add_roles(role)
+        await ctx.send(f"{user.mention} is muted for {num} minutes for {reason}")
+        await asyncio.sleep(duration)
+        await user.remove_roles(role)
+        await ctx.send(f"Congractulations {user.mention}, you are unmuted after {num} minute(s). Don't try to get mute again..")
     
+    elif time == 'hr':
+        duration = num*3600
+        await user.add_roles(role)
+        await ctx.send(f"{user.mention} is muted for {num} minutes for {reason}")
+        await asyncio.sleep(duration)
+        await user.remove_roles(role)
+        await ctx.send(f"Congractulations {user.mention}, you are unmuted after {num} hour(s). Don't try to get mute again..")
+    
+    elif time == 'd':
+        duration = num*86400
+        await user.add_roles(role)
+        await ctx.send(f"{user.mention} is muted for {num} minutes for {reason}")
+        await asyncio.sleep(duration)
+        await user.remove_roles(role)
+        await ctx.send(f"Congractulations {user.mention}, you are unmuted after {num} day(s). Don't try to get mute again..")
+
+
 @client.command(pass_context = True)
 async def spotify(ctx, user: discord.Member=None):
     if user is None:
@@ -465,6 +610,10 @@ async def spotify(ctx, user: discord.Member=None):
                 embed.set_author(name=user.name, icon_url=user.avatar_url)
                 embed.timestamp = datetime.datetime.utcnow()
                 await ctx.send(embed=embed)
+            
+            else:
+                await ctx.send("**You aren't listening to spotify now**")
+                return
 
     else:
         for activity in user.activities:
@@ -479,5 +628,75 @@ async def spotify(ctx, user: discord.Member=None):
                 embed.set_author(name=user.name, icon_url=user.avatar_url)
                 embed.timestamp = datetime.datetime.utcnow()
                 await ctx.send(embed=embed)
+            
+            else:
+                await ctx.send("**Sorry, The user isn't listening on spotify now**")
+                return
 
-client.run(os.getenv('TOKEN'))
+@client.command(pass_context=True)
+async def search(ctx, name:str):
+    lz_uri = 'spotify:artist:36QJpDe2go2KgaRleHCDTp'
+    client_id = "3de4994a8c99485ab153804b7cfa6ff4"
+    client_secret = "b0c797bb009346e8b77608eadbfb3545"
+    client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+    results = sp.artist_top_tracks(name)
+    for track in results['tracks'][:10]:
+        print('track    : ' +track['name'])
+        print('audio    : ' +track['preview_url'])
+        print('cover art: ' +track['album']['images'][0]['url'])
+
+@client.command(pass_context=True)
+async def test2(ctx):
+    choices = ["Hlo", "Hii", "Hello", "Test"]
+    choices2 = random.choice(choices)
+    role = discord.utils.get(ctx.guild.roles, id='516303012671520769')
+    await ctx.send(f"Type {choices2}")
+    msg2 = await client.wait_for('message')
+    if msg2.content == choices2:
+        await ctx.send("**Well, You've made it....**")
+        await ctx.message.author.add_roles(role)
+    else:
+        await ctx.send("**You've entered a wrong word.... Please try again...**")
+        choices3 = random.choice(choices)
+        await ctx.send(f"Type {choices3}")
+        msg3 = await client.wait_for('message')
+        if msg3.content == choices3:
+            await ctx.send("**You've typed correct this time...**")
+            await ctx.message.author.add_roles(role)
+            return
+        else:
+          await ctx.send("**You've entered a wrong word.... Please try again... This is last attempt for you...**")
+          choices4 = random.choice(choices)
+          await ctx.send(f"Type {choices4}")
+          msg4 = await client.wait_for('message')
+        if msg4.content == choices4:
+            await ctx.send("**You've typed correct this time...**")
+            await ctx.message.author.add_roles(role)
+            return
+        else:
+            await ctx.send("**You've entered a wrong word agian.... Your attempts are over... Please execute this cmd again**")
+            await ctx.guild.kick(ctx.message.author)
+            return
+
+@client.command(pass_context=True)
+@commands.has_permissions(manage_roles = True)
+async def roleinfo(ctx, role: discord.Role=None):
+    embed = discord.Embed(title=f"Here's the info of {role} role...", description=" ", color=role.color)
+    embed.set_author(name=f"{ctx.guild.name}", icon_url=ctx.guild.icon_url)
+    embed.add_field(name="ID", value=role.id, inline=False)
+    embed.add_field(name="Name", value=role.name, inline=False)
+    embed.add_field(name="Permissions", value=role.permissions, inline=False)
+    embed.add_field(name="Guild/Server", value=ctx.guild.name, inline=False)
+    embed.add_field(name="The role is shown seperately from others", value=role.hoist, inline=False)
+    embed.add_field(name="Position of the role", value=role.position, inline=False)
+    embed.add_field(name="Time of creation", value=role.created_at.strftime("%d-%m-%Y %H:%M:%S"), inline=False)
+    embed.timestamp = datetime.datetime.utcnow()
+    embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
+
+    await ctx.send(embed=embed)
+
+
+
+
+client.run(os.getenv("TOKEN"))
